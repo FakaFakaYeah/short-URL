@@ -58,12 +58,12 @@ class URLMap(db.Model):
     @classmethod
     def check_attr(cls, value, start, end, pattern, item):
         """Проверка корректности параметра"""
-        if (not isinstance(value, str) or not start <= len(value) <= end
-                or not re.match(pattern, value)):
+        if (not isinstance(value, str) or not start <= len(value) <= end or
+                not re.match(pattern, value)):
             if item == cls.Items.MAIN:
                 raise ApiError('Недопустимый url')
             else:
-                raise ApiError(f'Указано недопустимое имя для короткой ссылки')
+                raise ApiError('Указано недопустимое имя для короткой ссылки')
 
     @classmethod
     def check_url(cls, value):
