@@ -1,6 +1,7 @@
 from flask import render_template, flash, redirect
 
-from yacut import app, db
+from yacut import app
+from .error_handlers import ShortIdGenerateError
 from .forms import URLMapForm
 from .models import URLMap
 
@@ -11,16 +12,21 @@ def index_view():
     form = URLMapForm()
     if form.validate_on_submit():
         short = form.custom_id.data
-        if URLMap.query.filter_by(short=short).first():
-            flash(f'Имя {short} уже занято!', 'unique_id')
-            return render_template('yacut/main_page.html', form=form)
         if not short:
-            short = URLMap.get_unique_short_id()
-        url = URLMap(original=form.original_link.data, short=short)
-        db.session.add(url)
-        db.session.commit()
+            try:
+                short = URLMap.get_unique_short_id()
+            except ShortIdGenerateError as error:
+                flash(str(error), 'unique_id')
+                return render_template('yacut/main_page.html', form=form)
+        else:
+            if URLMap.get(short):
+                flash(f'Имя {short} уже занято!', 'unique_id')
+                return render_template('yacut/main_page.html', form=form)
         form.custom_id.data = None
-        return render_template('yacut/main_page.html', url=url, form=form)
+        return render_template(
+            'yacut/main_page.html', form=form,
+            url=URLMap.save(original=form.original_link.data, short=short)
+        )
     return render_template('yacut/main_page.html', form=form)
 
 

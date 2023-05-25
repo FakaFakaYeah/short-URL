@@ -5,6 +5,10 @@ from flask import render_template, jsonify
 from yacut import db, app
 
 
+class ShortIdGenerateError(Exception):
+    pass
+
+
 class ApiError(Exception):
 
     def __init__(self, message, code=HTTPStatus.BAD_REQUEST):
