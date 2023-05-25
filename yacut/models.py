@@ -25,6 +25,7 @@ class URLMap(db.Model):
 
     @staticmethod
     def get(short_id):
+        """Метод получения объекта"""
         return URLMap.query.filter_by(short=short_id).first()
 
     @staticmethod
