@@ -36,13 +36,17 @@ class URLMap(db.Model):
             return short
         raise ShortIdGenerateError('Не удалось сгенерировать короткую ссылку')
 
-    @classmethod
-    def save(cls, short, original):
+    @staticmethod
+    def save(**kwargs):
         """Метод сохранения объекта в БД"""
-        url = URLMap(original=original, short=short)
+        url = URLMap.from_dict(kwargs)
         db.session.add(url)
         db.session.commit()
         return url
+
+    @staticmethod
+    def from_dict(data):
+        return URLMap(**data)
 
     def to_dict(self, url):
         """Метод преобразования объект в словарь"""
