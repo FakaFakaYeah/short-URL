@@ -46,23 +46,21 @@ ___
   cd yacut
   ```
 
-* Cоздать и активировать виртуальное окружение:
-
-  ```
-  python3 -m venv venv
-  ```
+* Создайте и активируйте виртуальное окружение
 
   Если у вас Linux/macOS
 
-    ```
-    source venv/bin/activate
-    ```
-
+  ```
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
+  
   Если у вас windows
 
-    ```
-    source venv/scripts/activate
-    ```
+  ```
+  python -m venv venv
+  source venv/scripts/activate
+  ```
 
 * Установить зависимости из файла requirements.txt:
 
