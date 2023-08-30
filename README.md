@@ -5,8 +5,8 @@
  <li><a href="#description">Описание проекта</a></li>
  <li><a href="#stack">Используемые технологии</a></li>
  <li><a href="#architecture">Архитектура проекта</a></li>
+ <li><a href="#docker">Как запустить проект в Docker?</a></li>
  <li><a href="#start_project">Как развернуть проект локально?</a></li>
- <li><a href="#url">Ссылки проекта</a></li>
  <li><a href="#author">Авторы проекта</a></li>
 </ol>
 
@@ -23,15 +23,68 @@ ___
 ![](https://img.shields.io/badge/Git_Hub-grey?style=for-the-badge&logo=github&logoColor=white)
 ![](https://img.shields.io/badge/PYTEST-blue?style=for-the-badge&logo=pytest&logoColor=white)
 ![](https://img.shields.io/badge/ALEMBIC-FFA500?style=for-the-badge)
-
+![](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
+![](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 ---
 ### Архитектура проекта<a name="architecture"></a>
 
-| Директория   | Описание                     |
-|--------------|------------------------------|
-| `migrations` | Содержит миграции проекта    |
-| `yacut`      | Файлы проекта  Flask         |
-| `test`       | Директория с тестами проекта |  
+| Директория   | Описание                                            |
+|--------------|-----------------------------------------------------|
+| `migrations` | Содержит миграции проекта                           |
+| `yacut`      | Файлы проекта  Flask                                |
+| `test`       | Директория с тестами проекта                        |
+| `infra`      | Файлы для запуска с помощью Docker, настройки Nginx | 
+
+___
+### Как запустить проект в Docker?<a name="docker"></a>
+* Запустите терминал и клонируйте репозиторий 
+    ```
+    git clone https://github.com/FakaFakaYeah/short-URL.git
+    ```
+
+* Установите Docker по ссылке https://www.docker.com/products/docker-desktop
+
+* Перейдите в директорию с Docker-compose.yaml
+    ```
+    cd infra
+    ```
+  
+* Создайте .env файл и заполните его
+
+  Шаблон наполнения env файла
+
+  ```
+  FLASK_APP=yacut  # Название приложение
+  SECRET_KEY= SECRET_SECRET  # Ваш секретный ключ
+  DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres  # Данные для подключения к БД,
+  можете указать свои
+  DB_ENGINE=django.db.backends.postgresql  # указываем, что работаем с postgresql
+  DB_NAME=postgres  # имя базы данных
+  POSTGRES_USER=postgres  # логин для подключения к базе данных
+  POSTGRES_PASSWORD=postgres  # пароль для подключения к БД (установите свой)
+  DB_HOST=db  # название сервиса (контейнера)
+  DB_PORT=5432  # порт для подключения к БД
+  ```
+  
+* Выполните команду по разворачиванию docker-compose
+    ```
+    docker-compose up -d
+    ```
+  
+ Будет проведена сборка образа по Dockerfile и запуск проекта в трех контейнерах
+
+* Выполните миграции по следующей команде:
+    ```
+    docker compose exec yacut flask db upgrade
+    ```
+  
+* Проект будет доступен по следующим адресам:
+  ```
+  http://localhost/ - главная страница сайта
+  http://localhost/api/id - POST метод для генерации короткой ссылки
+  http://localhost/api/id/<string:short_id>/ - Получение длинной ссылки по
+  короткому id
+  ```
 
 ---
 ### Как развернуть проект локально?<a name="start_project"></a>
@@ -72,14 +125,12 @@ ___
   pip install -r requirements.txt
   ```
 
-* Заполнить env файл (на всякий случай в settings.py указаны значения по-умолчанию):
+* Создайте .env файл и заполните его
 
+  Шаблон наполнения env файла
   ```
-  в проекте создан шаблон env файла, добавьте вначале точку, заполните значения
-  FLASK_APP=yacut
-  FLASK_ENV=development
-  DATABASE_URI= (база данных с которой будет работать)
-  SECRET_KEY= (ваш секретный ключ)
+  FLASK_APP=yacut  # Название приложение
+  SECRET_KEY= SECRET_SECRET  # Ваш секретный ключ
   ```
 
 * Выполнить миграции
@@ -93,24 +144,14 @@ ___
   flask run
   ```
 
-* Проект будет доступен по следующему адресу:
-
+* Проект будет доступен по следующим адресам:
   ```
-  http://127.0.0.1:5000/
+  http://127.0.0.1:5000/ - главная страница сайта
+  http://127.0.0.1:5000/api/id - POST метод для генерации короткой ссылки
+  http://127.0.0.1:5000/api/id/<string:short_id>/ - Получение длинной ссылки по
+  короткому id
   ```
-
-### Ссылки проекта<a name="url"></a>
-
-  ```
-  http://127.0.0.1:5000/api/id/ — POST-запрос на создание новой короткой ссылки
-  ```
-  
-  ```
-  http://127.0.0.1:5000/api/id/<short_id>/ - GET-запрос на получение оригинальной ссылки по указанному короткому идентификатору. 
-  ```
-
----
-
+___
 ### Авторы проекта:<a name="author"></a>
 Смирнов Степан
 <div>

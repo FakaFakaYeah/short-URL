@@ -1,4 +1,0 @@
-FLASK_APP=yacut
-FLASK_ENV=development
-DATABASE_URI=(база данных с которой будет работать)
-SECRET_KEY= (ваш секретный ключ)
