@@ -43,11 +43,6 @@ ___
     ```
 
 * Установите Docker по ссылке https://www.docker.com/products/docker-desktop
-
-* Перейдите в директорию с Docker-compose.yaml
-    ```
-    cd infra
-    ```
   
 * Создайте .env файл и заполните его
 
@@ -65,6 +60,11 @@ ___
   DB_HOST=db  # название сервиса (контейнера)
   DB_PORT=5432  # порт для подключения к БД
   ```
+  
+* Перейдите в директорию с Docker-compose.yaml
+    ```
+    cd infra
+    ```
   
 * Выполните команду по разворачиванию docker-compose
     ```
