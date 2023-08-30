@@ -55,7 +55,7 @@ ___
 
   ```
   FLASK_APP=yacut  # Название приложение
-  SECRET_KEY= SECRET_SECRET  # Ваш секретный ключ
+  SECRET_KEY=SECRET_SECRET  # Ваш секретный ключ
   DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres  # Данные для подключения к БД,
   можете указать свои
   DB_ENGINE=django.db.backends.postgresql  # указываем, что работаем с postgresql
@@ -71,7 +71,7 @@ ___
     docker-compose up -d
     ```
   
- Будет проведена сборка образа по Dockerfile и запуск проекта в трех контейнерах
+   Будет проведена сборка образа по Dockerfile и запуск проекта в трех контейнерах
 
 * Выполните миграции по следующей команде:
     ```
@@ -116,10 +116,6 @@ ___
   ```
 
 * Установить зависимости из файла requirements.txt:
-
-  ```
-  python3 -m pip install --upgrade pip
-  ```
   
   ```
   pip install -r requirements.txt
